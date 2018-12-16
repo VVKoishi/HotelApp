@@ -3,8 +3,8 @@
     <h2>待支付</h2>
     <OrderCard :orders="orders">
       <template slot="payOrPaid" slot-scope="slotProps">
-        <el-button @click="cancel(slotProps.order_id)" style="margin-right: 5px;" type="info" size="small" round>取消订单</el-button>
         <el-button type="primary" size="small" round>确认支付</el-button>
+        <el-button @click="cancel(slotProps.order_id)" icon="el-icon-delete" circle size="small" type="info"></el-button>
       </template>
     </OrderCard>
 
