@@ -113,7 +113,8 @@ export default {
         payment: room.payment,
         start_date: startDate,
         leave_date: endDate
-      })
+      });
+      this.$router.push('/order');
     }
   },
   computed: {

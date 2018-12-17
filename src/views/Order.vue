@@ -22,6 +22,7 @@
 <script>
 import axios from 'axios';
 import store from '@/store.js'
+import router from '@/router.js'
 import OrderCard from '@/components/OrderCard'
 
 
@@ -65,6 +66,7 @@ export default {
     },
     submit (order_id) {
       this.$store.commit('submitOrder', order_id);
+      this.$router.push('/pay');
     }
   },
   components: {
