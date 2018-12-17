@@ -29,12 +29,9 @@
           </el-row>
         </el-col>
       </el-row>
-
-
     </el-card>
   </div>
 </template>
-
 
 
 <script>

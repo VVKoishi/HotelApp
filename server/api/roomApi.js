@@ -19,7 +19,7 @@ var jsonWrite = function(res, ret) {
   }
 };
 
-// 返回酒店列表接口
+// 返回房间列表接口
 router.post("/selectRoom", (req, res) => {
   var sql = $sql.room.select;
   var params = req.body;

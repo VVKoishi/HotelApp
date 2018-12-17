@@ -25,7 +25,8 @@ var sqlMap = {
   // 订单
   order: {
     select: "select  hotel_id, room_id, order_id, start_date, leave_date, amount, payment, create_date, room_name, hotel_name\
-    from (`order` left join room_type using(room_id)) left join hotel using(hotel_id) order by create_date desc;"
+    from (`order` left join room_type using(room_id)) left join hotel using(hotel_id) order by create_date desc;",
+    insert: "insert into `order` values (?,?,date(?),date(?),?,?,date(now()));"
   }
 };
 

@@ -3,7 +3,7 @@
     <h2>待支付</h2>
     <OrderCard :orders="orders">
       <template slot="payOrPaid" slot-scope="slotProps">
-        <el-button type="primary" size="small" round>确认支付</el-button>
+        <el-button @click="submit(slotProps.order_id)" type="primary" size="small" round>确认支付</el-button>
         <el-button @click="cancel(slotProps.order_id)" icon="el-icon-delete" circle size="small" type="info"></el-button>
       </template>
     </OrderCard>
@@ -16,6 +16,7 @@
     </OrderCard>
   </div>
 </template>
+
 
 
 <script>
@@ -43,6 +44,10 @@ export default {
     // 此时 data 已经被 observed 了
     this.fetchData()
   },
+  watch: {
+    // 如果有变化，会再次执行该方法
+    'orders': 'fetchData'
+  },
   methods: {
     fetchData () {
       axios.post('/api/order/selectOrder',{
@@ -57,6 +62,9 @@ export default {
     },
     cancel (order_id) {
       this.$store.commit('cancelOrder', order_id);
+    },
+    submit (order_id) {
+      this.$store.commit('submitOrder', order_id);
     }
   },
   components: {

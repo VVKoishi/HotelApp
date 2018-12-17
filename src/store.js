@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
+
 
 Vue.use(Vuex)
 
@@ -9,17 +11,7 @@ export default new Vuex.Store({
     // endDate: new Date(new Date().setDate(new Date().getDate()+1)).toLocaleDateString().split('/').join('-'),
     startDate: '2018-11-14',
     endDate: '2018-11-15',
-    orders: [{
-      order_id: 111,
-      hotel_id: 1,
-      hotel_name: '如家酒店',
-      room_id: 1,
-      room_name: '33号房',
-      amount: 2,
-      payment: 1300,
-      start_date: '2018-11-14',
-      leave_date: '2018-11-14'
-    }]
+    orders: []
   },
   mutations: {
     updateStartDate (state, message) {
@@ -32,6 +24,27 @@ export default new Vuex.Store({
       for(let i=0; i<state.orders.length; i++){
         if(state.orders[i].order_id == order_id) {
           state.orders.splice(i,1);
+        }
+      }
+    },
+    addToOrders (state, obj) {
+      state.orders.push(obj);
+    },
+    submitOrder (state, order_id) {
+      for(let i=0; i<state.orders.length; i++){
+        if(state.orders[i].order_id == order_id) {
+          state.orders.splice(i,1).forEach(element => {
+            axios.post('/api/order/insertOrder',{
+              order_id: element.order_id,
+              room_id: element.room_id,
+              start_date: element.start_date,
+              leave_date: element.leave_date,
+              amount: element.amount,
+              payment: element.payment
+            }).then((response) => {
+              // console.log(response);
+            });
+          });
         }
       }
     }

@@ -31,10 +31,9 @@
       v-for="room in rooms"
       v-show="room.remain!=0"
       :key="room.room_id"
-      :roomName="room.room_name"
-      :remain="room.remain"
-      :sumPrice="room.sumPrice"
+      :room="room"
       style="margin-bottom: 2px;"
+      @addToOrders="addToOrders(room)"
     />
   </div>
 </template>
@@ -50,6 +49,7 @@
 
 <script>
 import axios from 'axios';
+import store from '@/store.js'
 import RoomCard from '@/components/RoomCard.vue'
 import Rating from '@/components/Rating.vue'
 
@@ -95,6 +95,25 @@ export default {
           center: true
         });
       });
+    },
+    addToOrders (room) {
+      var startDate = this.$route.params.startDate;
+      var endDate = this.$route.params.endDate;
+      var endDateList = endDate.split('-');
+      endDateList[2]--;
+      endDate = endDateList.join('-');
+
+      this.$store.commit('addToOrders', {
+        order_id: Math.floor(Math.random() * 100000 + 1000), // 待改
+        hotel_id: this.$route.params.hotelId,
+        hotel_name: this.$route.params.hotelName,
+        room_id: room.room_id,
+        room_name: room.room_name,
+        amount: room.amount,
+        payment: room.payment,
+        start_date: startDate,
+        leave_date: endDate
+      })
     }
   },
   computed: {

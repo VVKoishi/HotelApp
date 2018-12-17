@@ -19,12 +19,27 @@ var jsonWrite = function(res, ret) {
   }
 };
 
-// 返回酒店列表接口
+// 返回订单列表接口
 router.post("/selectOrder", (req, res) => {
   var sql = $sql.order.select;
   var params = req.body;
   console.log(params);
   conn.query(sql, [], function(err, result) {
+    if (err) {
+      console.log(err);
+    }
+    if (result) {
+      jsonWrite(res, result);
+    }
+  });
+});
+
+// 返回订单列表接口
+router.post("/insertOrder", (req, res) => {
+  var sql = $sql.order.insert;
+  var params = req.body;
+  console.log(params);
+  conn.query(sql, [params.order_id, params.room_id, params.start_date, params.leave_date, params.amount, params.payment], function(err, result) {
     if (err) {
       console.log(err);
     }

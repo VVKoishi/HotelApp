@@ -8,18 +8,18 @@
         <div style="padding: 4px;">
           <el-row>
             <el-col :span="12">
-              <span style="float: left;">{{ roomName }}</span>
+              <span style="float: left;">{{ room.room_name }}</span>
             </el-col>
             <el-col :span="12">
               <span style="float: right;"><small>￥</small><span style="color: red; font-size: 150%;">{{ payment }}</span></span>
             </el-col>
           </el-row>
           <div style="margin: 10px 4px 0 4px;">
-            <span style="font-size: 50%; float: left;">空余房间：<span style="color: green;">{{ remain }}</span></span>
+            <span style="font-size: 50%; float: left;">空余房间：<span style="color: green;">{{ room.remain }}</span></span>
             <el-input-number size="mini" v-model="amount" style="width: 100px;"
               :min="1"
-              :max="parseInt(remain)"></el-input-number>
-            <i style="font-size: 150%; float: right;" class="el-icon-sold-out"></i>
+              :max="parseInt(room.remain)"></el-input-number>
+            <i @click="sentToRoot()" style="font-size: 150%; float: right;" class="el-icon-sold-out"></i>
           </div>
         </div>
       </div></el-col>
@@ -95,7 +95,7 @@
 
 export default {
   name: 'RoomCard',
-  props: ['roomName', 'remain', 'sumPrice'],
+  props: ['room'],
   data() {
     return {
       amount: 1    
@@ -103,7 +103,12 @@ export default {
   },
   computed: {
     payment: function () {
-      return this.amount * parseInt(this.sumPrice);
+      return this.amount * parseInt(this.room.sumPrice);
+    }
+  },
+  methods: {
+    sentToRoot: function () {
+      this.$emit('addToOrders', Object.assign(this.room, { amount: this.amount, payment: this.payment}))
     }
   },
   components: {
