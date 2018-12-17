@@ -13,6 +13,10 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
+//dist
+app.use(express.static('../dist'));
+app.use('/', express.static('../dist/index.html'));
+
 // 后端api路由
 app.use('/api/user', userApi);
 app.use('/api/hotel', hotelApi);
