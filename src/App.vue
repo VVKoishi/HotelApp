@@ -31,9 +31,6 @@
 </style>
 
 <script>
-import router from './router'
-
-
 
 export default {
   methods: {

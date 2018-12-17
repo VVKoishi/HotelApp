@@ -49,7 +49,6 @@
 
 <script>
 import axios from 'axios';
-import store from '@/store.js'
 import RoomCard from '@/components/RoomCard.vue'
 import Rating from '@/components/Rating.vue'
 

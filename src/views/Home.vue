@@ -80,7 +80,6 @@ el-button {
 // import DateSelector from '@/components/DateSelector.vue'
 import Card from '@/components/Card.vue'
 import axios from 'axios'
-import store from '@/store.js';
 
 // axios.post
 
