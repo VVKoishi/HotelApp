@@ -43,10 +43,5 @@ https://cli.vuejs.org/
 
 1. MySQL运行
 2. `node server/index.js` 启动后端
-3. `vue ui` 启动前端开发
+3. `vue ui` 启动前端开发（任务 - serve）
 
-GitHub上代码里我没上传 db.js
-
-会导致后端报错
-
-<img src="assets/image-20201123202351027.png" alt="image-20201123202351027" style="zoom:50%;" />
