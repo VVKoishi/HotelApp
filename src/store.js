@@ -9,8 +9,8 @@ export default new Vuex.Store({
   state: {
     // startDate: new Date().toLocaleDateString().split('/').join('-'),
     // endDate: new Date(new Date().setDate(new Date().getDate()+1)).toLocaleDateString().split('/').join('-'),
-    startDate: '2018-11-14',
-    endDate: '2018-11-15',
+    startDate: '2020-11-14',
+    endDate: '2020-11-15',
     orders: []
   },
   mutations: {
