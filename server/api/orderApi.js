@@ -24,7 +24,7 @@ router.post("/selectOrder", (req, res) => {
   var sql = $sql.order.select;
   var params = req.body;
   console.log(params);
-  conn.query(sql, [], function(err, result) {
+  conn.query(sql, [params.user_id], function(err, result) {
     if (err) {
       console.log(err);
     }

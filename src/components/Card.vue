@@ -30,6 +30,12 @@
 </template>
 
 <style>
+  /* 设置宽屏 card layout 最大宽度 */
+  .el-card {
+    max-width: 400px;
+    display: inline-block;
+  }
+
   a:-webkit-any-link {
       color: inherit;
       cursor: none;

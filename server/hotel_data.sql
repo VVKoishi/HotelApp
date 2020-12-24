@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: 2020-12-05 13:05:52
+-- Generation Time: 2020-12-07 06:18:15
 -- 服务器版本： 5.7.23
 -- PHP Version: 7.0.30
 
@@ -90,8 +90,8 @@ CREATE TABLE `room_info` (
 --
 
 INSERT INTO `room_info` (`info_id`, `date`, `price`, `remain`, `room_id`) VALUES
-(1, '2020-11-14', '500.00', '5', 1),
-(2, '2020-11-15', '500.00', '4', 1),
+(1, '2018-11-14', '500.00', '5', 1),
+(2, '2018-11-15', '500.00', '4', 1),
 (3, '2020-11-16', '600.00', '6', 1),
 (4, '2020-11-14', '300.00', '6', 2),
 (5, '2020-11-15', '300.00', '5', 2),
@@ -115,8 +115,8 @@ INSERT INTO `room_info` (`info_id`, `date`, `price`, `remain`, `room_id`) VALUES
 (23, '2020-11-15', '200.00', '1', 8),
 (24, '2020-11-16', '200.00', '5', 8),
 (25, '2020-11-14', '200.00', '2', 9),
-(26, '2020-11-15', '150.00', '4', 9),
-(27, '2020-11-16', '150.00', '4', 9);
+(26, '2018-11-15', '150.00', '4', 9),
+(27, '2018-11-16', '150.00', '4', 9);
 
 -- --------------------------------------------------------
 
@@ -208,7 +208,8 @@ ALTER TABLE `room_type`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`user_id`),
-  ADD UNIQUE KEY `user_name` (`user_name`);
+  ADD UNIQUE KEY `user_name` (`user_name`),
+  ADD KEY `admin_hotel_id` (`admin_hotel_id`);
 
 --
 -- 在导出的表使用AUTO_INCREMENT
@@ -228,19 +229,26 @@ ALTER TABLE `user`
 -- 限制表 `orders`
 --
 ALTER TABLE `orders`
-  ADD CONSTRAINT `room_order_id` FOREIGN KEY (`room_id`) REFERENCES `room_type` (`room_id`);
+  ADD CONSTRAINT `room_id_FK_orders` FOREIGN KEY (`room_id`) REFERENCES `room_type` (`room_id`),
+  ADD CONSTRAINT `user_id_FK_orders` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
 
 --
 -- 限制表 `room_info`
 --
 ALTER TABLE `room_info`
-  ADD CONSTRAINT `room_info_key` FOREIGN KEY (`room_id`) REFERENCES `room_type` (`room_id`);
+  ADD CONSTRAINT `room_id_FK_room_info` FOREIGN KEY (`room_id`) REFERENCES `room_type` (`room_id`);
 
 --
 -- 限制表 `room_type`
 --
 ALTER TABLE `room_type`
-  ADD CONSTRAINT `hotel_room_key` FOREIGN KEY (`hotel_id`) REFERENCES `hotel` (`hotel_id`);
+  ADD CONSTRAINT `hotel_id_FK_room_type` FOREIGN KEY (`hotel_id`) REFERENCES `hotel` (`hotel_id`);
+
+--
+-- 限制表 `user`
+--
+ALTER TABLE `user`
+  ADD CONSTRAINT `hotel_id_FK_user` FOREIGN KEY (`admin_hotel_id`) REFERENCES `hotel` (`hotel_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -11,7 +11,12 @@
       <router-link to="/order">
         <i 
         class="el-icon-goods"
-        style="position:absolute; transform: translateX(60px); font-size: 20px;"></i>
+        style="position:absolute; transform: translateX(40px); font-size: 20px;"></i>
+      </router-link>
+      <router-link to="/register">
+        <i 
+        class="el-icon-user"
+        style="position:absolute; transform: translateX(80px); font-size: 20px;"></i>
       </router-link>
       
     </div>

@@ -1,7 +1,7 @@
 <template>
   <div class="hotel">
     <div class="hotel_panel">
-      <el-row>
+      <el-row type="flex" justify="center">
         <el-col :span="16"><div class="grid-content">
           <div style="padding: 4px;">
             <el-row>
@@ -38,7 +38,7 @@
   </div>
 </template>
 
-<style>
+<style scope>
   .hotel_panel {
     background-color:aliceblue;
     border-radius: 4px 4px 0 0;

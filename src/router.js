@@ -38,6 +38,27 @@ export default new Router({
       path: '/pay',
       name: 'pay',
       component: () => import(/* webpackChunkName: "about" */ './views/Pay.vue')
+    },
+    {
+      path: '/account',
+      name: 'account',
+      component: () => import(/* webpackChunkName: "about" */ './views/Account.vue'),
+      children: [
+        {
+          path: '',
+          redirect: '/register'
+        },
+        {
+          path: '/register',
+          name: 'register',
+          component: () => import('./views/account/Register.vue')
+        },
+        {
+          path: '/login',
+          name: 'login',
+          component: () => import('./views/account/Login.vue')
+        }
+      ]
     }
   ]
 })

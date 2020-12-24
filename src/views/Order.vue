@@ -49,7 +49,14 @@ export default {
   },
   methods: {
     fetchData () {
+      var userID = parseInt(this.$store.state.userID);
+      if (userID == 0) {
+        this.$router.push('/account');
+        return;
+      }
+
       axios.post('/api/order/selectOrder',{
+        user_id: userID
       }).then((response) => {
         // console.log(response);
         this.finishedOrder = response.data;

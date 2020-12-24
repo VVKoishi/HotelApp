@@ -4,7 +4,9 @@ var sqlMap = {
   user: {
     add: "insert into user(id, name, age) values (0, ?, ?)",
     delete: "",
-    alter: ""
+    alter: "",
+    login: "",
+    quit: ""
   },
   // 商家
   user_hotel: {
@@ -35,8 +37,9 @@ var sqlMap = {
   },
   // 订单
   order: {
-    select: "select  hotel_id, room_id, order_id, start_date, leave_date, amount, payment, create_date, room_name, hotel_name\
-      from (`orders` left join room_type using(room_id)) left join hotel using(hotel_id) order by create_date desc;",
+    select: "select user_id, hotel_id, room_id, order_id, start_date, leave_date, amount, payment, create_date, room_name, hotel_name\
+      from (`orders` left join room_type using(room_id)) left join hotel using(hotel_id)\
+      where user_id=? order by create_date desc;",
     insert: "insert into `orders` values (?,?,date(?),date(?),?,?,date(now()));",
     select_hotel: ""
   }

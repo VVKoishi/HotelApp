@@ -11,7 +11,8 @@ export default new Vuex.Store({
     // endDate: new Date(new Date().setDate(new Date().getDate()+1)).toLocaleDateString().split('/').join('-'),
     startDate: '2020-11-14',
     endDate: '2020-11-15',
-    orders: []
+    orders: [],
+    userID: '0'
   },
   mutations: {
     updateStartDate (state, message) {
@@ -19,6 +20,12 @@ export default new Vuex.Store({
     },
     updateEndDate (state, message) {
       state.endDate = message
+    },
+    login (state, userID) {
+      state.userID = userID
+    },
+    quit (state) {
+      state.userID = '0'
     },
     cancelOrder (state, order_id) {
       for(let i=0; i<state.orders.length; i++){
