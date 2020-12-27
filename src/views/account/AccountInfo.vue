@@ -52,6 +52,11 @@ export default {
         return this.$store.state.userID;
       }
     },
+    userType: {
+      get() {
+        return this.$store.state.userType;
+      }
+    },
     orders: {
       get() {
         return this.$store.state.orders;
@@ -66,7 +71,7 @@ export default {
   watch: {
     // 如果有变化，会再次执行该方法
     'userID': 'fetchData',
-    'orders': 'fetchData'
+    'orders': 'fetchData', // 防止提交新订单后，本地支出数据不更新，比较tricky
   },
   methods: {
     fetchData () {
@@ -82,21 +87,43 @@ export default {
       }).then((response) => {
         // console.log(response.data);
         this.user = response.data[0];
+        this.fetchDataRound2();
       });
-
+    },
+    fetchDataRound2 () {
       // 获取订单信息，用于展示图表
-      axios.post('/api/order/selectOrder',{
-        user_id: userID
-      }).then((response) => {
-        // console.log(response);
-        this.finishedOrder = response.data;
-        this.finishedOrder.forEach(order => {
-          order.create_date= new Date(order.create_date).toLocaleDateString().split('/').join('-');
-          order.start_date = new Date(order.start_date).toLocaleDateString().split('/').join('-');
-          order.leave_date = new Date(order.leave_date).toLocaleDateString().split('/').join('-');
+      // 为什么要同步请求，因为否则hotel_id拿不到
+      if (this.userType == 0) { // 用户
+        axios.post('/api/order/selectOrder',{
+          user_id: userID
+        }).then((response) => {
+          // console.log(response);
+          this.finishedOrder = response.data;
+          this.finishedOrder.forEach(order => {
+            order.create_date= new Date(order.create_date).toLocaleDateString().split('/').join('-');
+            order.start_date = new Date(order.start_date).toLocaleDateString().split('/').join('-');
+            order.leave_date = new Date(order.leave_date).toLocaleDateString().split('/').join('-');
+          });
         });
-      });
-      
+      }
+      else if (this.userType == 1) {  // 商家
+        var hotel_id = parseInt(this.user.admin_hotel_id);  // 为什么要同步请求，因为否则hotel_id拿不到
+        axios.post('/api/order/selectHotelOrder',{
+          hotel_id: hotel_id
+        }).then((response) => {
+          // console.log(hotel_id);
+          // console.log(response);
+          this.finishedOrder = response.data;
+          this.finishedOrder.forEach(order => {
+            order.create_date= new Date(order.create_date).toLocaleDateString().split('/').join('-');
+            order.start_date = new Date(order.start_date).toLocaleDateString().split('/').join('-');
+            order.leave_date = new Date(order.leave_date).toLocaleDateString().split('/').join('-');
+          });
+        });
+      }
+      else {
+        this.finishedOrder = [];
+      }
     },
     logout () {
       this.$store.commit('quit');

@@ -49,4 +49,19 @@ router.post("/insertOrder", (req, res) => {
   });
 });
 
+// 商家查询订单数据
+router.post("/selectHotelOrder", (req, res) => {
+  var sql = $sql.order.select_hotel;
+  var params = req.body;
+  console.log(params);
+  conn.query(sql, [params.hotel_id], function(err, result) {
+    if (err) {
+      console.log(err);
+    }
+    if (result) {
+      jsonWrite(res, result);
+    }
+  });
+});
+
 module.exports = router;

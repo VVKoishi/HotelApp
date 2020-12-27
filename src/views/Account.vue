@@ -55,23 +55,48 @@ export default {
       activeIndex: '2'
     };
   },
+  computed: {
+    userID: {
+      get() {
+        return this.$store.state.userID;
+      }
+    }
+  },
   watch: {
     '$route' (to, from) {
-        if(to.name === 'register'){
-          this.activeIndex = '1';
-        }
-        else if(to.name === 'login'){
-          this.activeIndex = '2';
-        }
-        else {
-          this.activeIndex = '2';
-        }
+      if(to.name === 'register'){
+        this.activeIndex = '1';
+      }
+      else if(to.name === 'login'){
+        this.activeIndex = '2';
+      }
+      else {
+        this.activeIndex = '2';
+      }
     }
+  },
+  // 在mounted时，checkID导致url改变，进而导致子router-view渲染
+  // 进而导致updated状态发生
+  mounted() {
+    // 每次挂载时调用(从无到有)
+    // console.log("mo");
+    this.checkUserID();
+  },
+  // 子router-view挂载，父组件触发updated
+  // 子router-view取消挂载，父组件也触发updated (此处代码产生作用的原因)
+  updated() {
+    // 每次更新时调用(从有到有)
+    // console.log("up");
+    this.checkUserID();
   },
   methods: {
     handleSelect(key, keyPath) {
       // console.log(key, keyPath);
       this.activeIndex = key;
+    },
+    checkUserID() {
+      if (this.userID == 0 && this.$route.name != 'login' && this.$route.name != 'register')
+        this.$router.replace('/login');
     }
   },
   components: {

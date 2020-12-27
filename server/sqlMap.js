@@ -6,7 +6,7 @@ var sqlMap = {
     delete: "",
     alter: "",
     login: "select user_id, admin_level from user where user_name=? and user_password=?;",
-    info: "select user_name, user_phone, user_description from user where user_id=?;",
+    info: "select user_name, user_phone, user_description, admin_level, admin_hotel_id from user where user_id=?;",
     quit: ""
   },
   // 商家
@@ -42,7 +42,9 @@ var sqlMap = {
       from (`orders` left join room_type using(room_id)) left join hotel using(hotel_id)\
       where user_id=? order by create_date desc;",
     insert: "insert into `orders` values (?,?,date(?),date(?),?,?,date(now()));",
-    select_hotel: ""
+    select_hotel: "select user_id, hotel_id, room_id, order_id, start_date, leave_date, amount, payment, create_date, room_name, hotel_name\
+      from (`orders` left join room_type using(room_id)) left join hotel using(hotel_id)\
+      where hotel_id=? order by create_date desc;"
   }
 };
 

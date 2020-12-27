@@ -45,10 +45,6 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/Account.vue'),
       children: [
         {
-          path: '',
-          redirect: '/login'
-        },
-        {
           path: '/register',
           name: 'register',
           component: () => import('./views/account/Register.vue')

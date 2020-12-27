@@ -19,19 +19,35 @@
               <span><small>{{ order.amount }}间</small></span>
             </div>
           </el-row>
-          <el-row style="float: left; margin-left: 4px; padding: 0 5px; font-size: 50%; color: grey;">
+          <el-row class="order_subtext">
             <span>{{ order.start_date }}</span> 至
             <span>{{ leaveDatePlusOne(order.leave_date) }}</span>
             <span> 共{{ days(order.start_date,order.leave_date) }}晚</span>
           </el-row>
+          <el-row class="order_subtext" v-show="order.create_date">
+            <span>创建于 {{ order.create_date }}</span>
+          </el-row>
+          <el-row class="order_subtext" v-show="order.user_name">
+            <span>由 {{ order.user_name }}</span>
+          </el-row>
           <el-row style="position: absolute; bottom: 0; right: 0; padding: 5px;">
-            <slot name="payOrPaid" :order_id="order.order_id" :create_date="order.create_date"></slot>
+            <slot name="payOrPaid" :order_id="order.order_id"></slot>
           </el-row>
         </el-col>
       </el-row>
     </el-card>
   </div>
 </template>
+
+<style scoped>
+.order_subtext {
+  float: left;
+  margin-left: 4px;
+  padding: 0 5px;
+  font-size: 50%;
+  color: grey;
+}
+</style>
 
 
 <script>
