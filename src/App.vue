@@ -13,7 +13,7 @@
         class="el-icon-goods"
         style="position:absolute; transform: translateX(40px); font-size: 20px;"></i>
       </router-link>
-      <router-link to="/register">
+      <router-link to="/account">
         <i 
         class="el-icon-user"
         style="position:absolute; transform: translateX(80px); font-size: 20px;"></i>

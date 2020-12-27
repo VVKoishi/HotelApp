@@ -46,7 +46,7 @@ export default new Router({
       children: [
         {
           path: '',
-          redirect: '/register'
+          redirect: '/login'
         },
         {
           path: '/register',

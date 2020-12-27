@@ -34,4 +34,35 @@ router.post("/addUser", (req, res) => {
   });
 });
 
+// 登录接口
+router.post("/login", (req, res) => {
+  var sql = $sql.user.login;
+  var params = req.body;
+  console.log(params);
+  conn.query(sql, [params.user_name, params.user_password], function(err, result) {
+    if (err) {
+      console.log(err);
+    }
+    if (result) {
+      jsonWrite(res, result);
+    }
+  });
+});
+
+// 获取用户信息接口
+router.post("/info", (req, res) => {
+  var sql = $sql.user.info;
+  var params = req.body;
+  console.log(params);
+  conn.query(sql, [params.user_id], function(err, result) {
+    if (err) {
+      console.log(err);
+    }
+    if (result) {
+      jsonWrite(res, result);
+    }
+  });
+});
+
+
 module.exports = router;

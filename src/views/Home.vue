@@ -98,6 +98,16 @@ export default {
       endDateList[2]--;
       endDate = endDateList.join('-');
 
+      if (new Date(endDate) < new Date(startDate)) {
+        this.$message({
+          showClose: true,
+          message: '请输入正确日期范围',
+          type: 'error',
+          center: true
+        });
+        return;
+      }
+
       var days = this.days;
 
       axios.post('/api/hotel/selectHotel',{
@@ -109,6 +119,7 @@ export default {
         this.hotels = response.data;
 
         if(this.hotels.length===0) this.$message({
+          showClose: true,
           message: '未搜索到相应结果',
           center: true
         });

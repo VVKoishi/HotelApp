@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: 2020-12-07 06:18:15
+-- Generation Time: 2020-12-27 06:52:58
 -- 服务器版本： 5.7.23
 -- PHP Version: 7.0.30
 
@@ -66,10 +66,10 @@ CREATE TABLE `orders` (
 
 INSERT INTO `orders` (`order_id`, `room_id`, `start_date`, `leave_date`, `amount`, `payment`, `create_date`, `user_id`) VALUES
 (0, 6, '2020-11-14', '2020-11-15', 4, '2000.00', '2020-11-01', 2),
-(1, 5, '2020-11-14', '2020-11-16', 2, '2100.00', '2020-11-01', 2),
-(2, 1, '2020-11-14', '2020-11-14', 5, '2500.00', '2020-11-01', 2),
-(3, 8, '2020-11-14', '2020-11-16', 2, '1296.00', '2020-11-01', 2),
-(4, 4, '2020-11-14', '2020-11-16', 2, '2400.00', '2020-11-01', 2);
+(1, 5, '2020-11-14', '2020-11-16', 2, '2100.00', '2020-11-02', 2),
+(2, 1, '2020-11-14', '2020-11-14', 5, '2500.00', '2020-11-03', 2),
+(3, 8, '2020-11-14', '2020-11-16', 2, '1296.00', '2020-11-04', 2),
+(4, 4, '2020-11-14', '2020-11-16', 2, '2400.00', '2020-11-05', 2);
 
 -- --------------------------------------------------------
 
@@ -90,8 +90,8 @@ CREATE TABLE `room_info` (
 --
 
 INSERT INTO `room_info` (`info_id`, `date`, `price`, `remain`, `room_id`) VALUES
-(1, '2018-11-14', '500.00', '5', 1),
-(2, '2018-11-15', '500.00', '4', 1),
+(1, '2020-11-14', '500.00', '5', 1),
+(2, '2020-11-15', '500.00', '4', 1),
 (3, '2020-11-16', '600.00', '6', 1),
 (4, '2020-11-14', '300.00', '6', 2),
 (5, '2020-11-15', '300.00', '5', 2),
@@ -115,8 +115,8 @@ INSERT INTO `room_info` (`info_id`, `date`, `price`, `remain`, `room_id`) VALUES
 (23, '2020-11-15', '200.00', '1', 8),
 (24, '2020-11-16', '200.00', '5', 8),
 (25, '2020-11-14', '200.00', '2', 9),
-(26, '2018-11-15', '150.00', '4', 9),
-(27, '2018-11-16', '150.00', '4', 9);
+(26, '2020-11-15', '150.00', '4', 9),
+(27, '2020-11-16', '150.00', '4', 9);
 
 -- --------------------------------------------------------
 
@@ -155,7 +155,8 @@ CREATE TABLE `user` (
   `user_id` int(11) NOT NULL,
   `user_name` varchar(20) NOT NULL,
   `user_password` varchar(20) NOT NULL,
-  `user_phone` int(11) DEFAULT NULL,
+  `user_phone` varchar(20) DEFAULT NULL,
+  `user_description` varchar(50) DEFAULT NULL COMMENT '用户描述',
   `user_createDate` date DEFAULT NULL,
   `user_lastLoginDate` date DEFAULT NULL,
   `admin_level` int(3) NOT NULL DEFAULT '0' COMMENT '0为用户，1为商家，2为管理',
@@ -166,10 +167,10 @@ CREATE TABLE `user` (
 -- 转存表中的数据 `user`
 --
 
-INSERT INTO `user` (`user_id`, `user_name`, `user_password`, `user_phone`, `user_createDate`, `user_lastLoginDate`, `admin_level`, `admin_hotel_id`) VALUES
-(1, 'admin', '123123123', NULL, NULL, NULL, 3, NULL),
-(2, 'buyer', '123123123', NULL, NULL, NULL, 0, NULL),
-(3, 'seller', '123123123', NULL, NULL, NULL, 1, 1);
+INSERT INTO `user` (`user_id`, `user_name`, `user_password`, `user_phone`, `user_description`, `user_createDate`, `user_lastLoginDate`, `admin_level`, `admin_hotel_id`) VALUES
+(1, 'admin', '123123123', '13574250310', 'While the band’s playin’', NULL, NULL, 3, NULL),
+(2, 'buyer', '123123123', '15074239390', 'You’re still goin’ strong', NULL, NULL, 0, NULL),
+(3, 'seller', '123123123', '18633654507', 'It’s so nice to have you back where you belong', NULL, NULL, 1, 1);
 
 --
 -- Indexes for dumped tables

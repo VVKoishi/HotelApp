@@ -10,7 +10,8 @@
 
     <h2>完成订单</h2>
     <OrderCard :orders="finishedOrder">
-      <template slot="payOrPaid">
+      <template slot="payOrPaid" slot-scope="slotProps">
+        <span style="float: left; margin-right: 126px; padding: 0 5px; font-size: 50%; color: grey;">创建于 {{ slotProps.create_date }}</span>
         <i style="font-size: 150%;" class="el-icon-check"></i>
       </template>
     </OrderCard>
@@ -49,6 +50,7 @@ export default {
   },
   methods: {
     fetchData () {
+      // 检查是否已经登录，否则，跳转到登录
       var userID = parseInt(this.$store.state.userID);
       if (userID == 0) {
         this.$router.push('/account');
@@ -61,6 +63,7 @@ export default {
         // console.log(response);
         this.finishedOrder = response.data;
         this.finishedOrder.forEach(order => {
+          order.create_date= new Date(order.create_date).toLocaleDateString().split('/').join('-');
           order.start_date = new Date(order.start_date).toLocaleDateString().split('/').join('-');
           order.leave_date = new Date(order.leave_date).toLocaleDateString().split('/').join('-');
         });

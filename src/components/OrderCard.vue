@@ -25,7 +25,7 @@
             <span> 共{{ days(order.start_date,order.leave_date) }}晚</span>
           </el-row>
           <el-row style="position: absolute; bottom: 0; right: 0; padding: 5px;">
-            <slot name="payOrPaid" :order_id="order.order_id"></slot>
+            <slot name="payOrPaid" :order_id="order.order_id" :create_date="order.create_date"></slot>
           </el-row>
         </el-col>
       </el-row>

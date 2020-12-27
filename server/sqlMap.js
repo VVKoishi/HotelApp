@@ -2,10 +2,11 @@
 var sqlMap = {
   // 用户
   user: {
-    add: "insert into user(id, name, age) values (0, ?, ?)",
+    add: "",
     delete: "",
     alter: "",
-    login: "",
+    login: "select user_id, admin_level from user where user_name=? and user_password=?;",
+    info: "select user_name, user_phone, user_description from user where user_id=?;",
     quit: ""
   },
   // 商家

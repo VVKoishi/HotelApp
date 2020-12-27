@@ -11,8 +11,9 @@ export default new Vuex.Store({
     // endDate: new Date(new Date().setDate(new Date().getDate()+1)).toLocaleDateString().split('/').join('-'),
     startDate: '2020-11-14',
     endDate: '2020-11-15',
-    orders: [],
-    userID: '0'
+    orders: [], // 打算提交的订单
+    userID: 0,
+    userType: 0 // 0为用户，1为商家，2为管理，3为超管
   },
   mutations: {
     updateStartDate (state, message) {
@@ -21,11 +22,13 @@ export default new Vuex.Store({
     updateEndDate (state, message) {
       state.endDate = message
     },
-    login (state, userID) {
-      state.userID = userID
+    login (state, obj) {
+      state.userID = obj.userID;
+      state.userType = obj.userType;
     },
     quit (state) {
-      state.userID = '0'
+      state.userID = 0
+      state.userType = 0;
     },
     cancelOrder (state, order_id) {
       for(let i=0; i<state.orders.length; i++){
