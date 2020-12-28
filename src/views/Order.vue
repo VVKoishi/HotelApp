@@ -28,6 +28,7 @@ import OrderCard from '@/components/OrderCard'
 export default {
   data () {
     return {
+      user: {},
       finishedOrder: []
     }
   },
@@ -35,6 +36,16 @@ export default {
     orders: {
       get() {
         return this.$store.state.orders;
+      }
+    },
+    userType: {
+      get() {
+        return this.$store.state.userType;
+      }
+    },
+    userID: {
+      get() {
+        return this.$store.state.userID;
       }
     }
   },
@@ -50,23 +61,49 @@ export default {
   methods: {
     fetchData () {
       // 检查是否已经登录，否则，跳转到登录
-      var userID = parseInt(this.$store.state.userID);
-      if (userID == 0) {
+      if (this.userID == 0) {
         this.$router.replace('/account');
         return;
       }
 
-      axios.post('/api/order/selectOrder',{
-        user_id: userID
-      }).then((response) => {
-        // console.log(response);
-        this.finishedOrder = response.data;
-        this.finishedOrder.forEach(order => {
-          order.create_date= new Date(order.create_date).toLocaleDateString().split('/').join('-');
-          order.start_date = new Date(order.start_date).toLocaleDateString().split('/').join('-');
-          order.leave_date = new Date(order.leave_date).toLocaleDateString().split('/').join('-');
+      // 检查是商家还是用户
+      if (this.userType == 0) { // 用户
+        axios.post('/api/order/selectOrder',{
+          user_id: this.userID
+        }).then((response) => {
+          // console.log(response);
+          this.finishedOrder = response.data;
+          this.finishedOrder.forEach(order => {
+            order.create_date= new Date(order.create_date).toLocaleDateString().split('/').join('-');
+            order.start_date = new Date(order.start_date).toLocaleDateString().split('/').join('-');
+            order.leave_date = new Date(order.leave_date).toLocaleDateString().split('/').join('-');
+          });
         });
-      });
+      }
+      else if (this.userType == 1) {  // 商家
+        // 获取用户信息
+        axios.post('/api/user/info',{
+          user_id: this.userID
+        }).then((response) => {
+          // console.log(response.data);
+          this.user = response.data[0];
+          var hotel_id = parseInt(this.user.admin_hotel_id);  // 为什么要同步请求，因为否则hotel_id拿不到
+          axios.post('/api/order/selectHotelOrder',{
+            hotel_id: hotel_id
+          }).then((response) => {
+            // console.log(hotel_id);
+            // console.log(response);
+            this.finishedOrder = response.data;
+            this.finishedOrder.forEach(order => {
+              order.create_date= new Date(order.create_date).toLocaleDateString().split('/').join('-');
+              order.start_date = new Date(order.start_date).toLocaleDateString().split('/').join('-');
+              order.leave_date = new Date(order.leave_date).toLocaleDateString().split('/').join('-');
+            });
+          });
+        });
+      }
+      else this.finishedOrder = [];
+      
     },
     cancel (order_id) {
       this.$store.commit('cancelOrder', order_id);

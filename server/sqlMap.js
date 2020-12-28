@@ -42,8 +42,8 @@ var sqlMap = {
       from (`orders` left join room_type using(room_id)) left join hotel using(hotel_id)\
       where user_id=? order by create_date desc;",
     insert: "insert into `orders` values (?,?,date(?),date(?),?,?,date(now()));",
-    select_hotel: "select user_id, hotel_id, room_id, order_id, start_date, leave_date, amount, payment, create_date, room_name, hotel_name\
-      from (`orders` left join room_type using(room_id)) left join hotel using(hotel_id)\
+    select_hotel: "select *\
+      from ((`orders` left join room_type using(room_id)) left join hotel using(hotel_id)) left join user using(user_id)\
       where hotel_id=? order by create_date desc;"
   }
 };

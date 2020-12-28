@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: 2020-12-27 06:52:58
+-- Generation Time: 2020-12-28 12:03:36
 -- 服务器版本： 5.7.23
 -- PHP Version: 7.0.30
 
@@ -170,7 +170,7 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`user_id`, `user_name`, `user_password`, `user_phone`, `user_description`, `user_createDate`, `user_lastLoginDate`, `admin_level`, `admin_hotel_id`) VALUES
 (1, 'admin', '123123123', '13574250310', 'While the band’s playin’', NULL, NULL, 3, NULL),
 (2, 'buyer', '123123123', '15074239390', 'You’re still goin’ strong', NULL, NULL, 0, NULL),
-(3, 'seller', '123123123', '18633654507', 'It’s so nice to have you back where you belong', NULL, NULL, 1, 1);
+(3, 'seller', '123123123', '18633654507', 'It’s so nice to have you back where you belong', NULL, NULL, 1, 2);
 
 --
 -- Indexes for dumped tables

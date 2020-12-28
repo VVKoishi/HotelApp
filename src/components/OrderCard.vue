@@ -25,10 +25,10 @@
             <span> 共{{ days(order.start_date,order.leave_date) }}晚</span>
           </el-row>
           <el-row class="order_subtext" v-show="order.create_date">
-            <span>创建于 {{ order.create_date }}</span>
+            <p>创建于 {{ order.create_date }}</p>
           </el-row>
           <el-row class="order_subtext" v-show="order.user_name">
-            <span>由 {{ order.user_name }}</span>
+            <p>由 {{ order.user_name }}</p>
           </el-row>
           <el-row style="position: absolute; bottom: 0; right: 0; padding: 5px;">
             <slot name="payOrPaid" :order_id="order.order_id"></slot>

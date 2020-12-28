@@ -76,14 +76,13 @@ export default {
   methods: {
     fetchData () {
       // 检查是否已经登录，否则退出
-      var userID = parseInt(this.$store.state.userID);
-      if (userID == 0) {
+      if (this.userID == 0) {
         return;
       }
 
       // 获取用户信息
       axios.post('/api/user/info',{
-        user_id: userID
+        user_id: this.userID
       }).then((response) => {
         // console.log(response.data);
         this.user = response.data[0];
@@ -95,7 +94,7 @@ export default {
       // 为什么要同步请求，因为否则hotel_id拿不到
       if (this.userType == 0) { // 用户
         axios.post('/api/order/selectOrder',{
-          user_id: userID
+          user_id: this.userID
         }).then((response) => {
           // console.log(response);
           this.finishedOrder = response.data;

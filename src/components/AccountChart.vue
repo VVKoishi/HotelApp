@@ -67,6 +67,7 @@ export default {
       }
 
       var PAY_OR_GAIN = (this.userType == 0 ? '支出' : '收入');
+      var HOTEL_NAME = (this.userType == 1 && this.orders[0] ? this.orders[0].hotel_name : '');
       
       // 绘制图表
       var dom = document.getElementById('mychart');
@@ -74,7 +75,7 @@ export default {
       if (!existInstance) existInstance = echarts.init(dom);
       existInstance.setOption({
           title: {
-            text: '账单数据',
+            text: '账单数据 ' + HOTEL_NAME,
             subtext: '总' + PAY_OR_GAIN + ' ' + this.sum_payment + ' ¥'
           },
           tooltip: {},
