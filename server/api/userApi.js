@@ -24,13 +24,16 @@ router.post("/addUser", (req, res) => {
   var sql = $sql.user.add;
   var params = req.body;
   console.log(params);
-  conn.query(sql, [params.username, params.age], function(err, result) {
-    if (err) {
-      console.log(err);
-    }
-    if (result) {
-      jsonWrite(res, result);
-    }
+  conn.query(sql, 
+    [params.user_name, params.user_password, params.user_phone, params.user_description, 
+      params.admin_level, params.admin_hotel_id], 
+    function(err, result) {
+      if (err) {
+        console.log(err);
+      }
+      if (result) {
+        jsonWrite(res, result);
+      }
   });
 });
 

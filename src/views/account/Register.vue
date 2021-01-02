@@ -57,7 +57,9 @@
 </style>
 
 <script>
-import China from "./locations"
+import axios from 'axios';
+import China from './locations'
+import * as Song from './lyrics';
 
 export default {
   name: 'Register',
@@ -211,15 +213,60 @@ export default {
         location_string += value;
       });
       return location_string;
+    },
+    user: {
+      get () {
+        return {
+          userID: this.$store.state.userID,
+          userType: this.$store.state.userType
+        };
+      },
+      set (obj) {
+        this.$store.commit('login', obj)
+      }
     }
   },
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          
-
-
+          if (this.user_type === 0) { // 用户
+            // 添加
+            axios.post('/api/user/addUser',{
+              user_name: this.ruleForm.name,
+              user_password: this.ruleForm.pass,
+              user_phone: this.ruleForm.phone,
+              user_description: Song.random(),
+              admin_level: this.user_type,
+              admin_hotel_id: null
+            }).then((response) => {
+              // console.log(response.data);
+              // console.log(Song.random());
+              // 登录
+              axios.post('/api/user/login',{
+                user_name: this.ruleForm.name,
+                user_password: this.ruleForm.pass
+              }).then((response) => {
+                // console.log(response.data);
+                if (response.data.length == 1) {
+                  // 登陆成功！
+                  this.user = {
+                    userID: response.data[0].user_id,
+                    userType: response.data[0].admin_level
+                  };
+                  // this.$router.go(-1);
+                }
+                else {
+                  // 密码错误、或不存在账号
+                  this.$message.error("密码错误 或 账户不存在");
+                }
+              });
+            });
+          } 
+          else {  // 商家
+            // 添加酒店
+            // 添加商家user
+          }         
 
           this.$message({
             showClose: true,

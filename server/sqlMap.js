@@ -2,18 +2,12 @@
 var sqlMap = {
   // 用户
   user: {
-    add: "",
+    add: "INSERT INTO `user` VALUES (NULL, ?, ?, ?, ?, date(now()), date(now()), ?, ?)",
     delete: "",
     alter: "",
     login: "select user_id, admin_level from user where user_name=? and user_password=?;",
     info: "select user_name, user_phone, user_description, admin_level, admin_hotel_id from user where user_id=?;",
     quit: ""
-  },
-  // 商家
-  user_hotel: {
-    add: "",
-    delete: "",
-    alter: ""
   },
   // 酒店
   hotel: {
