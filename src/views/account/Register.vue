@@ -22,13 +22,16 @@
       <el-form-item label="酒店名" prop="hotel_name" v-show="ruleForm.type === '商家'">
         <el-input v-model="ruleForm.hotel_name"></el-input>
       </el-form-item>
-      <el-form-item label="酒店地址" prop="hotel_location" v-show="ruleForm.type === '商家'">
+      <el-form-item label="酒店地址" prop="hotel_location_array" v-show="ruleForm.type === '商家'">
         <el-cascader
-          v-on:input="solveAddress"
+          v-model="ruleForm.hotel_location_array"
           :options="options"
           class="register_location"
           clearable>
         </el-cascader>
+      </el-form-item>
+      <el-form-item label="详细地址" prop="hotel_location_detail" v-show="ruleForm.type === '商家'">
+        <el-input v-model="ruleForm.hotel_location_detail"></el-input>
       </el-form-item>
       <el-form-item class="register_button_group">
         <el-button type="primary" @click="submitForm('ruleForm')" class="register_button">注册</el-button>
@@ -122,11 +125,15 @@ export default {
         else return callback();
       }
     };
-    var checkHotelLocation = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error('需选择酒店地址'));
-      } else {
+    var checkHotelLocationArray = (rule, value, callback) => {
+      if (this.ruleForm.type === '用户') {
         return callback();
+      } else if (this.ruleForm.type === '商家') {
+        if (!value) {
+          return callback(new Error('需选择酒店地址'));
+        } else {
+          return callback();
+        }
       }
     };
     var validatePass = (rule, value, callback) => {
@@ -161,7 +168,8 @@ export default {
         phone: '',
         type: '',
         hotel_name: '',
-        hotel_location: ''
+        hotel_location_array: '',
+        hotel_location_detail: ''
       },
       rules: {
         name: [
@@ -185,25 +193,34 @@ export default {
         hotel_name: [
           { validator: checkHotelName, trigger: 'blur' }
         ],
-        hotel_location: [
-          { validator: checkHotelLocation, trigger: 'blur' }
+        hotel_location_array: [
+          { validator: checkHotelLocationArray, trigger: 'blur' }
         ]
       },
       options: China.area
     };
   },
-  methods: {
-    solveAddress(valueArray) {
+  computed: {
+    user_type: function () {
+      return this.ruleForm.type === '用户' ? 0 : 1;
+    },
+    hotel_location: function () {
       var location_string = '';
-      valueArray.forEach(value => {
+      if (this.ruleForm.hotel_location_array.length === 0) return '';
+      this.ruleForm.hotel_location_array.forEach(value => {
         location_string += value;
       });
-      this.ruleForm.hotel_location = location_string;
-    },
+      return location_string;
+    }
+  },
+  methods: {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          // alert('submit!');
+          
+
+
+
           this.$message({
             showClose: true,
             message: '注册成功',

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: 2020-12-28 12:03:36
+-- Generation Time: 2021-01-02 13:21:49
 -- 服务器版本： 5.7.23
 -- PHP Version: 7.0.30
 
@@ -31,17 +31,19 @@ SET time_zone = "+00:00";
 CREATE TABLE `hotel` (
   `hotel_id` int(11) NOT NULL,
   `hotel_name` varchar(255) DEFAULT NULL,
-  `stars` decimal(2,1) DEFAULT NULL
+  `stars` decimal(2,1) DEFAULT NULL,
+  `hotel_location` varchar(30) DEFAULT NULL,
+  `hotel_location_detail` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 --
 -- 转存表中的数据 `hotel`
 --
 
-INSERT INTO `hotel` (`hotel_id`, `hotel_name`, `stars`) VALUES
-(1, '惠民旅馆', '5.0'),
-(2, '风景旅馆', '4.0'),
-(3, '商务旅馆', '4.0');
+INSERT INTO `hotel` (`hotel_id`, `hotel_name`, `stars`, `hotel_location`, `hotel_location_detail`) VALUES
+(1, '惠民旅馆', '5.0', '四川省成都市高新西区', '西源大道2006号'),
+(2, '风景旅馆', '4.0', '四川省成都市高新西区', '西源大道2006号'),
+(3, '商务旅馆', '4.5', '四川省成都市高新西区', '西源大道2006号');
 
 -- --------------------------------------------------------
 
