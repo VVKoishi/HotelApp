@@ -13,7 +13,8 @@ export default new Vuex.Store({
     endDate: '2020-11-15',
     orders: [], // 打算提交的订单
     userID: 0,
-    userType: 0 // 0为用户，1为商家，2为管理，3为超管
+    userType: 0, // 0为用户，1为商家，2为管理，3为超管
+    userHotelID: 0, // 仅当userType为商家时使用
   },
   mutations: {
     updateStartDate (state, message) {
@@ -25,10 +26,13 @@ export default new Vuex.Store({
     login (state, obj) {
       state.userID = obj.userID;
       state.userType = obj.userType;
+      if (obj.userHotelID) state.userHotelID = obj.userHotelID;
+      else state.userHotelID = 0;
     },
     quit (state) {
       state.userID = 0
       state.userType = 0;
+      state.userHotelID = 0;
     },
     cancelOrder (state, order_id) {
       for(let i=0; i<state.orders.length; i++){

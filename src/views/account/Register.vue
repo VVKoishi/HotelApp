@@ -265,7 +265,50 @@ export default {
           } 
           else {  // 商家
             // 添加酒店
-            // 添加商家user
+            axios.post('/api/hotel/addHotel',{
+              hotel_name: this.ruleForm.hotel_name,
+              hotel_location: this.hotel_location,
+              hotel_location_detail: this.ruleForm.hotel_location_detail
+            }).then((response) => {
+              // console.log(response.data);
+              // 获取酒店ID
+              axios.post('/api/hotel/infoByName',{
+                hotel_name: this.ruleForm.hotel_name
+              }).then((response) => {
+                // console.log(response.data);
+                // 添加商家user
+                axios.post('/api/user/addUser',{
+                  user_name: this.ruleForm.name,
+                  user_password: this.ruleForm.pass,
+                  user_phone: this.ruleForm.phone,
+                  user_description: Song.random(),
+                  admin_level: this.user_type,
+                  admin_hotel_id: response.data[0].hotel_id
+                }).then((response) => {
+                  // console.log(response.data);
+                  // console.log(Song.random());
+                  // 登录
+                  axios.post('/api/user/login',{
+                    user_name: this.ruleForm.name,
+                    user_password: this.ruleForm.pass
+                  }).then((response) => {
+                    // console.log(response.data);
+                    if (response.data.length == 1) {
+                      // 登陆成功！
+                      this.user = {
+                        userID: response.data[0].user_id,
+                        userType: response.data[0].admin_level
+                      };
+                      // this.$router.go(-1);
+                    }
+                    else {
+                      // 密码错误、或不存在账号
+                      this.$message.error("密码错误 或 账户不存在");
+                    }
+                  });
+                });
+              });
+            });
           }         
 
           this.$message({

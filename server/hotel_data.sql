@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: 2021-01-02 13:21:49
+-- Generation Time: 2021-01-02 16:04:58
 -- 服务器版本： 5.7.23
 -- PHP Version: 7.0.30
 
@@ -182,7 +182,8 @@ INSERT INTO `user` (`user_id`, `user_name`, `user_password`, `user_phone`, `user
 -- Indexes for table `hotel`
 --
 ALTER TABLE `hotel`
-  ADD PRIMARY KEY (`hotel_id`) USING BTREE;
+  ADD PRIMARY KEY (`hotel_id`) USING BTREE,
+  ADD UNIQUE KEY `hotel_name` (`hotel_name`);
 
 --
 -- Indexes for table `orders`
@@ -219,6 +220,12 @@ ALTER TABLE `user`
 --
 
 --
+-- 使用表AUTO_INCREMENT `hotel`
+--
+ALTER TABLE `hotel`
+  MODIFY `hotel_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- 使用表AUTO_INCREMENT `user`
 --
 ALTER TABLE `user`
@@ -232,26 +239,26 @@ ALTER TABLE `user`
 -- 限制表 `orders`
 --
 ALTER TABLE `orders`
-  ADD CONSTRAINT `room_id_FK_orders` FOREIGN KEY (`room_id`) REFERENCES `room_type` (`room_id`),
-  ADD CONSTRAINT `user_id_FK_orders` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
+  ADD CONSTRAINT `room_id_FK_orders` FOREIGN KEY (`room_id`) REFERENCES `room_type` (`room_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `user_id_FK_orders` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- 限制表 `room_info`
 --
 ALTER TABLE `room_info`
-  ADD CONSTRAINT `room_id_FK_room_info` FOREIGN KEY (`room_id`) REFERENCES `room_type` (`room_id`);
+  ADD CONSTRAINT `room_id_FK_room_info` FOREIGN KEY (`room_id`) REFERENCES `room_type` (`room_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- 限制表 `room_type`
 --
 ALTER TABLE `room_type`
-  ADD CONSTRAINT `hotel_id_FK_room_type` FOREIGN KEY (`hotel_id`) REFERENCES `hotel` (`hotel_id`);
+  ADD CONSTRAINT `hotel_id_FK_room_type` FOREIGN KEY (`hotel_id`) REFERENCES `hotel` (`hotel_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- 限制表 `user`
 --
 ALTER TABLE `user`
-  ADD CONSTRAINT `hotel_id_FK_user` FOREIGN KEY (`admin_hotel_id`) REFERENCES `hotel` (`hotel_id`);
+  ADD CONSTRAINT `hotel_id_FK_user` FOREIGN KEY (`admin_hotel_id`) REFERENCES `hotel` (`hotel_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

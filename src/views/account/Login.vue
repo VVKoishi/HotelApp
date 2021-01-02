@@ -75,7 +75,8 @@ export default {
               // 登陆成功！
               this.user = {
                 userID: response.data[0].user_id,
-                userType: response.data[0].admin_level
+                userType: response.data[0].admin_level,
+                userHotelID: response.data[0].admin_hotel_id ? response.data[0].admin_hotel_id : null
               };
               // this.$router.go(-1);
             }
@@ -101,7 +102,8 @@ export default {
       get () {
         return {
           userID: this.$store.state.userID,
-          userType: this.$store.state.userType
+          userType: this.$store.state.userType,
+          userHotelID: this.$store.state.userHotelID
         };
       },
       set (obj) {

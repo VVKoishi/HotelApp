@@ -5,18 +5,21 @@ var sqlMap = {
     add: "INSERT INTO `user` VALUES (NULL, ?, ?, ?, ?, date(now()), date(now()), ?, ?)",
     delete: "",
     alter: "",
-    login: "select user_id, admin_level from user where user_name=? and user_password=?;",
+    login: "select user_id, admin_level, admin_hotel_id from user where user_name=? and user_password=?;",
     info: "select user_name, user_phone, user_description, admin_level, admin_hotel_id from user where user_id=?;",
     quit: ""
   },
   // 酒店
   hotel: {
-    select: "select hotel_id, hotel_name, stars, min(sumPrice) as minPrice\
+    select: "select hotel_id, hotel_name, stars, min(sumPrice) as minPrice, hotel_location, hotel_location_detail\
       from (select room_id, hotel_id, sum(price) as sumPrice\
       from (room_type left join room_info using(room_id)) left join hotel using(hotel_id)\
       where date between ? and ?\
       group by room_id having count(date)=?) as A left join hotel using(hotel_id)\
       group by hotel_id order by minPrice;",
+    add: "INSERT INTO `hotel` VALUES (NULL, ?, 3, ?, ?)",
+    info: "select * from hotel where hotel_id=?",
+    info_by_name: "select * from hotel where hotel_name=?"
   },
   // 房间
   room: {

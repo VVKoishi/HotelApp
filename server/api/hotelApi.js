@@ -34,4 +34,49 @@ router.post("/selectHotel", (req, res) => {
   });
 });
 
+// 添加酒店
+router.post("/addHotel", (req, res) => {
+  var sql = $sql.hotel.add;
+  var params = req.body;
+  console.log(params);
+  conn.query(sql, [params.hotel_name, params.hotel_location, params.hotel_location_detail], function(err, result) {
+    if (err) {
+      console.log(err);
+    }
+    if (result) {
+      jsonWrite(res, result);
+    }
+  });
+});
+
+// 获取酒店信息(通过酒店ID)
+router.post("/info", (req, res) => {
+  var sql = $sql.hotel.info;
+  var params = req.body;
+  console.log(params);
+  conn.query(sql, [params.hotel_id], function(err, result) {
+    if (err) {
+      console.log(err);
+    }
+    if (result) {
+      jsonWrite(res, result);
+    }
+  });
+});
+
+// 获取酒店信息(通过酒店名称)
+router.post("/infoByName", (req, res) => {
+  var sql = $sql.hotel.info_by_name;
+  var params = req.body;
+  console.log(params);
+  conn.query(sql, [params.hotel_name], function(err, result) {
+    if (err) {
+      console.log(err);
+    }
+    if (result) {
+      jsonWrite(res, result);
+    }
+  });
+});
+
 module.exports = router;
