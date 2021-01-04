@@ -75,22 +75,6 @@ export default {
         callback();
       }
     };
-    // var checkAge = (rule, value, callback) => {
-    //   if (!value) {
-    //     return callback(new Error('年龄不能为空'));
-    //   }
-    //   setTimeout(() => {
-    //     if (!Number.isInteger(value)) {
-    //       callback(new Error('请输入数字值'));
-    //     } else {
-    //       if (value < 18) {
-    //         callback(new Error('必须年满18岁'));
-    //       } else {
-    //         callback();
-    //       }
-    //     }
-    //   }, 1000);
-    // };
     var checkPhone = (rule, value, callback) => {
       if (!value) {
         return callback(new Error('手机号码不能为空'));
@@ -230,92 +214,14 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          if (this.user_type === 0) { // 用户
-            // 添加
-            axios.post('/api/user/addUser',{
-              user_name: this.ruleForm.name,
-              user_password: this.ruleForm.pass,
-              user_phone: this.ruleForm.phone,
-              user_description: Song.random(),
-              admin_level: this.user_type,
-              admin_hotel_id: null
-            }).then((response) => {
-              // console.log(response.data);
-              // console.log(Song.random());
-              // 登录
-              axios.post('/api/user/login',{
-                user_name: this.ruleForm.name,
-                user_password: this.ruleForm.pass
-              }).then((response) => {
-                // console.log(response.data);
-                if (response.data.length == 1) {
-                  // 登陆成功！
-                  this.user = {
-                    userID: response.data[0].user_id,
-                    userType: response.data[0].admin_level
-                  };
-                  // this.$router.go(-1);
-                }
-                else {
-                  // 密码错误、或不存在账号
-                  this.$message.error("密码错误 或 账户不存在");
-                }
-              });
-            });
-          } 
-          else {  // 商家
-            // 添加酒店
-            axios.post('/api/hotel/addHotel',{
-              hotel_name: this.ruleForm.hotel_name,
-              hotel_location: this.hotel_location,
-              hotel_location_detail: this.ruleForm.hotel_location_detail
-            }).then((response) => {
-              // console.log(response.data);
-              // 获取酒店ID
-              axios.post('/api/hotel/infoByName',{
-                hotel_name: this.ruleForm.hotel_name
-              }).then((response) => {
-                // console.log(response.data);
-                // 添加商家user
-                axios.post('/api/user/addUser',{
-                  user_name: this.ruleForm.name,
-                  user_password: this.ruleForm.pass,
-                  user_phone: this.ruleForm.phone,
-                  user_description: Song.random(),
-                  admin_level: this.user_type,
-                  admin_hotel_id: response.data[0].hotel_id
-                }).then((response) => {
-                  // console.log(response.data);
-                  // console.log(Song.random());
-                  // 登录
-                  axios.post('/api/user/login',{
-                    user_name: this.ruleForm.name,
-                    user_password: this.ruleForm.pass
-                  }).then((response) => {
-                    // console.log(response.data);
-                    if (response.data.length == 1) {
-                      // 登陆成功！
-                      this.user = {
-                        userID: response.data[0].user_id,
-                        userType: response.data[0].admin_level
-                      };
-                      // this.$router.go(-1);
-                    }
-                    else {
-                      // 密码错误、或不存在账号
-                      this.$message.error("密码错误 或 账户不存在");
-                    }
-                  });
-                });
-              });
-            });
-          }         
-
-          this.$message({
-            showClose: true,
-            message: '注册成功',
-            type: 'success',
-            center: true
+          // 检查用户名占用
+          axios.post('/api/user/infoByName',{
+            user_name: this.ruleForm.name
+          }).then((response) => {
+            if (response.data.length != 0) {
+              this.$message.error("账户名已被使用");
+            }
+            else this.submitFormRound2();
           });
         } else {
           return false;
@@ -324,6 +230,123 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
+    },
+    submitFormRound2() {
+      if (this.user_type === 0) { // 用户
+        this.submitFormRound2BranchUser();
+      } 
+      else {  // 商家
+        this.submitFormRound2BranchHotel();
+      }
+    },
+    submitFormRound2BranchUser() {
+      // 添加
+      axios.post('/api/user/addUser',{
+        user_name: this.ruleForm.name,
+        user_password: this.ruleForm.pass,
+        user_phone: this.ruleForm.phone,
+        user_description: Song.random(),
+        admin_level: this.user_type,
+        admin_hotel_id: null
+      }).then((response) => {
+        // console.log(response.data);
+        // console.log(Song.random());
+
+        this.$message({
+          showClose: true,
+          message: '注册成功',
+          type: 'success',
+          center: true
+        });
+
+        // 登录
+        axios.post('/api/user/login',{
+          user_name: this.ruleForm.name,
+          user_password: this.ruleForm.pass
+        }).then((response) => {
+          // console.log(response.data);
+          if (response.data.length == 1) {
+            // 登陆成功！
+            this.user = {
+              userID: response.data[0].user_id,
+              userType: response.data[0].admin_level
+            };
+            // this.$router.go(-1);
+          }
+          else {
+            // 密码错误、或不存在账号
+            this.$message.error("密码错误 或 账户不存在");
+          }
+        });
+      });
+    },
+    submitFormRound2BranchHotel() {
+      // 检查酒店名占用
+      axios.post('/api/hotel/infoByName',{
+        hotel_name: this.ruleForm.hotel_name
+      }).then((response) => {
+        if (response.data.length != 0) {
+          this.$message.error("酒店名已被使用");
+          return false;
+        } else {
+          this.submitFormRound2BranchHotelRound2();
+        }
+      });
+    },
+    submitFormRound2BranchHotelRound2() {
+      // 添加酒店
+      axios.post('/api/hotel/addHotel',{
+        hotel_name: this.ruleForm.hotel_name,
+        hotel_location: this.hotel_location,
+        hotel_location_detail: this.ruleForm.hotel_location_detail
+      }).then((response) => {
+        // console.log(response.data);
+        // 获取酒店ID
+        axios.post('/api/hotel/infoByName',{
+          hotel_name: this.ruleForm.hotel_name
+        }).then((response) => {
+          // console.log(response.data);
+          // 添加商家user
+          axios.post('/api/user/addUser',{
+            user_name: this.ruleForm.name,
+            user_password: this.ruleForm.pass,
+            user_phone: this.ruleForm.phone,
+            user_description: Song.random(),
+            admin_level: this.user_type,
+            admin_hotel_id: response.data[0].hotel_id
+          }).then((response) => {
+            // console.log(response.data);
+            // console.log(Song.random());
+
+            this.$message({
+              showClose: true,
+              message: '注册成功',
+              type: 'success',
+              center: true
+            });
+
+            // 登录
+            axios.post('/api/user/login',{
+              user_name: this.ruleForm.name,
+              user_password: this.ruleForm.pass
+            }).then((response) => {
+              // console.log(response.data);
+              if (response.data.length == 1) {
+                // 登陆成功！
+                this.user = {
+                  userID: response.data[0].user_id,
+                  userType: response.data[0].admin_level
+                };
+                // this.$router.go(-1);
+              }
+              else {
+                // 密码错误、或不存在账号
+                this.$message.error("密码错误 或 账户不存在");
+              }
+            });
+          });
+        });
+      });
     }
   }
 }

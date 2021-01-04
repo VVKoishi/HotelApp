@@ -7,6 +7,7 @@ var sqlMap = {
     alter: "",
     login: "select user_id, admin_level, admin_hotel_id from user where user_name=? and user_password=?;",
     info: "select user_name, user_phone, user_description, admin_level, admin_hotel_id from user where user_id=?;",
+    info_by_name: "select user_name, user_phone, user_description, admin_level, admin_hotel_id from user where user_name=?;",
     quit: ""
   },
   // 酒店

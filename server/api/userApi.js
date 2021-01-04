@@ -67,5 +67,20 @@ router.post("/info", (req, res) => {
   });
 });
 
+// 获取用户信息接口(账户名)
+router.post("/infoByName", (req, res) => {
+  var sql = $sql.user.info_by_name;
+  var params = req.body;
+  console.log(params);
+  conn.query(sql, [params.user_name], function(err, result) {
+    if (err) {
+      console.log(err);
+    }
+    if (result) {
+      jsonWrite(res, result);
+    }
+  });
+});
+
 
 module.exports = router;
