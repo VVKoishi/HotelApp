@@ -1,7 +1,8 @@
 <template>
   <div class="account_info">
     <h1>Account Info</h1>    
-    <el-avatar icon="el-icon-user-solid" shape="square" :size="50"></el-avatar>
+    <el-avatar icon="el-icon-user-solid" shape="square" :size="40" v-show="userType == 0"></el-avatar>
+    <img alt="avatar" src="@/assets/userHotel.png" class="avatar" v-show="userType == 1">
     <h2 class="info-text">{{ user.user_name }} <img alt="logout" src="@/assets/logout.png" @click="logout()"></h2>
     <p class="info-text">{{ user.user_phone }}</p>
     <p class="info-text description">{{ user.user_description }} <i class="el-icon-edit" @click="alter()"></i></p>
@@ -12,8 +13,12 @@
 
 
 <style scoped>
+.avatar {
+  height: 50px;
+  width: 50px;
+}
 .el-avatar {
-  font-size: 30px;
+  font-size: 25px;
 }
 .info-text {
   margin: 10px;
