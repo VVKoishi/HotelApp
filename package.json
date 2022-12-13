@@ -10,7 +10,7 @@
   "dependencies": {
     "echarts": "^5.0.0",
     "element-ui": "^2.14.1",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "mysql": "^2.18.1",
     "vue": "^2.6.12",
     "vue-baidu-map": "^0.21.22",
